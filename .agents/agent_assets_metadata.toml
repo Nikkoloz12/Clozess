@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "VhKHRFlCXBOVIoO7mV26B"
+uri = "file://artifacts/clozes/public/images/hero-scan.png"
+type = "image"
+title = "Futuristic AI body fit scan"
+
+[[generated]]
+id = "QBjktWwiFCxN6uui48oPq"
+uri = "file://artifacts/clozes/public/images/vision-fashion.png"
+type = "image"
+title = "Digital fashion virtual identity"
+
+[[generated]]
+id = "oTUjlqvdBX9a2_Vx-jx2r"
+uri = "file://attached_assets/generated_images/premium_menswear_model_wearing_9846.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "qmJgHhJma58xgTAf_PxGT"
+uri = "file://attached_assets/generated_images/luxury_minimal_fashion_model_3ed9.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "1coSOPrs1FGA4E4v6WwTH"
+uri = "file://attached_assets/generated_images/luxury_fashion_model_woman_118c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "QV7TKaRABhovat0jKwbR5"
+uri = "file://attached_assets/generated_images/luxury_minimal_white_dress_2714.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "O4Bi9S7UE_g-CYGaA4wtu"
+uri = "file://attached_assets/generated_images/premium_slim_fit_dark_7f9d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "NLDjDlaUy3WBsZQZf6xfu"
+uri = "file://attached_assets/generated_images/luxury_tan_camel_oversized_cbe4.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "HtZ3kTp3ASoQmPWFurRdI"
+uri = "file://attached_assets/generated_images/premium_white_leather_minimalist_2d13.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "9AiNX6zGA27zCy2HByA_k"
+uri = "file://attached_assets/generated_images/luxury_fashion_female_model_b183.png"
+type = "image"
+title = "generated_image"

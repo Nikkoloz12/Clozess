@@ -1,0 +1,105 @@
+Build a futuristic AI fashion-tech startup website called “Clozes” (temporary name). The website should feel premium, cinematic, minimalistic, and futuristic — similar to Apple, OpenAI, Nothing, Tesla, and luxury fashion-tech startups.
+IMPORTANT: This is NOT a normal ecommerce website. This is an AI-powered fit intelligence platform for future shopping.
+The purpose of the website is:
+predict how clothes will fit users,
+estimate comfort and movement,
+reduce clothing returns,
+and help users discover matching outfits (trousers, shoes, glasses and etc).
+STYLE & DESIGN:
+Dark futuristic UI
+Black, white, silver, and soft gray palette
+Minimalistic layout
+Smooth scrolling animations
+Glassmorphism effects
+Premium typography
+Large cinematic hero section
+AI/3D inspired visuals
+Girl watching smiling picture
+Fashion-tech atmosphere
+Mobile responsive
+Extremely clean and modern
+WEBSITE STRUCTURE:
+SECTION 1 — HERO SECTION Full-screen futuristic hero section with animated background.
+Headline: “Experience Clothes Before You Wear Them.”
+Subheadline: “AI-powered fit intelligence that predicts comfort, sizing, and outfit compatibility before you buy.”
+Add:
+futuristic humanoid body silhouette
+animated fit analysis UI
+floating percentage indicators
+interactive glowing interface
+Buttons:
+“Try the Demo”
+“Join Early Access”
+SECTION 2 — THE PROBLEM Modern card-style section explaining online shopping frustrations.
+Include cards for:
+inconsistent sizing
+uncomfortable clothing
+fitting room frustration
+high return rates
+uncertainty before buying
+Display modern statistics and futuristic UI elements.
+SECTION 3 — HOW IT WORKS Create a clean 3-step process.
+Step 1: User enters body measurements:
+height
+weight
+chest
+waist
+hips
+shoulders
+Step 2: AI analyzes clothing dimensions and body proportions.
+Step 3: The system predicts:
+fit compatibility
+movement comfort
+tightness level
+closure comfort
+recommended size
+Display futuristic progress bars and percentage indicators.
+SECTION 4 — AI FIT ANALYSIS DEMO Create an interactive demo section.
+Allow user to:
+choose clothing category (shirt, jeans, jacket)
+input body measurements
+press “Analyze Fit”
+After analysis, display:
+Fit Compatibility: 89%
+Comfort Score: 82%
+Mobility Score: 91%
+Tightness Around Chest: Medium
+Sitting Comfort: High
+Recommended Size: Medium
+Show futuristic animated visual indicators.
+IMPORTANT: The analysis can be simulated visually for now. No real AI backend required initially.
+SECTION 5 — SMART OUTFIT MATCHING After user selects a shirt, recommend:
+matching jeans
+jackets
+shoes
+accessories
+Display clean futuristic recommendation cards.
+This section should feel AI-powered and stylish.
+SECTION 6 — FUTURE OF SHOPPING Create a visionary section explaining:
+digital fashion identity
+AI body intelligence
+predictive fashion
+virtual fitting evolution
+future shopping experience
+Use cinematic layout and futuristic visuals.
+SECTION 7 — WAITLIST Simple premium waitlist form:
+name
+email
+Headline: “Join the Future of Fashion.”
+FOOTER: Minimalistic footer with:
+social links
+contact email
+privacy policy
+startup mission statement
+ADDITIONAL REQUIREMENTS:
+Use smooth animations throughout the website
+Add hover effects
+Add futuristic loading transitions
+Use modern cards and glowing UI
+Make the website visually impressive for startup accelerators and investors
+The website should look like a real Silicon Valley fashion-tech startup
+Prioritize storytelling and visual experience over ecommerce functionality
+The website should emotionally communicate the future of online shopping
+DO NOT make the website look like Shopify or a normal clothing store. This is a futuristic AI technology platform.
+Include subscription plans, like an individual plan for 12$, family plan for 4 persons 25$ and free plan for 3 times use.
+Make the website functioned, not only model website. Include that I'm building this to be a program, that other companies can use this AI matching, but only can transfer my program to their website.
