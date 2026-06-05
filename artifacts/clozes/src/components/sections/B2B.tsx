@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Code2, Globe2, ShieldCheck, ArrowRight } from "lucide-react";
+import { Code2, Globe2, ShieldCheck, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 
 export function B2B() {
+  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.company) return;
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/integration-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        const data = await res.json();
+        setError(data.error ?? "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="py-24 px-6 bg-secondary/20 border-y border-border" id="business">
       <div className="max-w-7xl mx-auto">
@@ -14,7 +44,7 @@ export function B2B() {
             Power Your Store With Fit Intelligence
           </h2>
           <p className="text-lg text-muted-foreground">
-            We're building the infrastructure for the next generation of e-commerce. Integrate our engine via API or drop-in UI components and watch return rates plummet.
+            Integrate our engine via API or drop-in UI components and watch return rates drop. Your customers get perfect fit every time.
           </p>
         </div>
 
@@ -23,20 +53,20 @@ export function B2B() {
             {
               icon: Code2,
               title: "Drop-in SDK",
-              desc: "Add a 'Find My Fit' button to your product pages in less than 10 lines of code. Fully white-labeled."
+              desc: "Add a 'Find My Fit' button to your product pages in less than 10 lines of code. Fully white-labeled and customizable to match your brand."
             },
             {
               icon: Globe2,
               title: "Universal Profiles",
-              desc: "When a user shops on any Clozes-powered store, their fit profile travels with them. Zero friction."
+              desc: "When a shopper visits any Clozes-powered store, their fit profile travels with them. Zero friction, instant personalization."
             },
             {
               icon: ShieldCheck,
-              title: "Return Reduction",
-              desc: "Our partners see an average 38% decrease in size-related returns within the first quarter."
+              title: "Proven ROI",
+              desc: "Our partners see an average 38% decrease in size-related returns within the first quarter of integration."
             }
           ].map((feature, i) => (
-            <motion.div 
+            <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -51,12 +81,93 @@ export function B2B() {
           ))}
         </div>
 
-        <div className="text-center">
-          <a href="mailto:partners@clozes.ai" className="inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-lg font-medium hover:bg-foreground/90 transition-colors">
-            Request Integration API
-            <ArrowRight className="w-4 h-4" />
-          </a>
-        </div>
+        {/* Integration request form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-2xl mx-auto bg-card border border-border rounded-2xl p-8"
+        >
+          {submitted ? (
+            <div className="text-center py-8">
+              <div className="mx-auto w-14 h-14 bg-primary/20 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-7 h-7 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Request Received!</h3>
+              <p className="text-muted-foreground">We'll be in touch within 1 business day to discuss your integration.</p>
+            </div>
+          ) : (
+            <>
+              <h3 className="text-xl font-bold mb-2">Request API Integration</h3>
+              <p className="text-muted-foreground text-sm mb-6">Tell us about your store and we'll reach out to get you set up.</p>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Your Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="John Smith"
+                      value={form.name}
+                      onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                      className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Work Email *</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="john@yourbrand.com"
+                      value={form.email}
+                      onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                      className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Company / Brand Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your Brand"
+                    value={form.company}
+                    onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
+                    className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Tell us about your store</label>
+                  <textarea
+                    rows={3}
+                    placeholder="Monthly orders, platform (Shopify, WooCommerce, custom), main challenges with returns..."
+                    value={form.message}
+                    onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                    className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors resize-none"
+                  />
+                </div>
+
+                {error && <p className="text-sm text-red-500">{error}</p>}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {loading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      Submit Integration Request
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </>
+          )}
+        </motion.div>
       </div>
     </section>
   );

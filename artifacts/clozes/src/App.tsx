@@ -6,9 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sun, Moon } from "lucide-react";
 
 import { Hero } from "./components/sections/Hero";
+import { FitDemo } from "./components/sections/FitDemo";
 import { Problem } from "./components/sections/Problem";
 import { HowItWorks } from "./components/sections/HowItWorks";
-import { FitDemo } from "./components/sections/FitDemo";
 import { OutfitMatching } from "./components/sections/OutfitMatching";
 import { B2B } from "./components/sections/B2B";
 import { Future } from "./components/sections/Future";
@@ -31,7 +31,7 @@ function Navbar({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/90 backdrop-blur-md border-b border-border"
+          ? "bg-background/90 backdrop-blur-md border-b border-border shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -41,13 +41,14 @@ function Navbar({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
         </a>
 
         <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          <a href="#problem" className="hover:text-foreground transition-colors">Problem</a>
-          <a href="#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
           <a href="#demo" className="hover:text-foreground transition-colors">Demo</a>
+          <a href="#problem" className="hover:text-foreground transition-colors">Why Clozes</a>
+          <a href="#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
+          <a href="#business" className="hover:text-foreground transition-colors">For Brands</a>
           <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <button
             onClick={onToggle}
             data-testid="button-theme-toggle"
@@ -73,9 +74,9 @@ function Home({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar dark={dark} onToggle={onToggle} />
       <Hero />
+      <FitDemo />
       <Problem />
       <HowItWorks />
-      <FitDemo />
       <OutfitMatching />
       <B2B />
       <Future />
@@ -87,8 +88,11 @@ function Home({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
 }
 
 function App() {
+  // Default to light mode
   const [dark, setDark] = useState(() => {
-    return localStorage.getItem("clozes-theme") !== "light";
+    const saved = localStorage.getItem("clozes-theme");
+    if (saved) return saved === "dark";
+    return false; // light mode by default
   });
 
   useEffect(() => {

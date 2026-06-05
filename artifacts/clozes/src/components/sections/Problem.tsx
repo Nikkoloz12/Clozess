@@ -1,35 +1,39 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Ruler, Scissors, RefreshCcw, Box } from "lucide-react";
+import { AlertCircle, Ruler, RefreshCcw, TrendingDown } from "lucide-react";
 
 const problems = [
   {
     title: "Inconsistent Sizing",
-    description: "A medium from one brand is a large in another. Size charts are static and unreliable.",
+    description: "A medium from one brand is a large in another. Size charts are static, vary wildly across brands, and give shoppers no real guidance.",
     icon: Ruler,
-    stat: "43%",
-    statLabel: "of shoppers buy multiple sizes"
+    stat: "60%",
+    statLabel: "of shoppers buy multiple sizes to return one",
+    source: "Barclaycard, 2023"
   },
   {
     title: "The Return Crisis",
-    description: "Millions of perfectly good garments are shipped back and forth, driving up costs and emissions.",
+    description: "Fit and sizing issues are the single biggest driver of online fashion returns, costing brands billions and generating enormous waste.",
     icon: RefreshCcw,
-    stat: "67%",
-    statLabel: "of online returns are size-related"
+    stat: "70%",
+    statLabel: "of fashion returns are due to poor fit",
+    source: "Shopify & Klarna, 2023"
   },
   {
-    title: "Fitting Room Frustration",
-    description: "Even in-store, finding the right fit requires trying on countless variations.",
-    icon: Scissors,
-    stat: "2.5x",
-    statLabel: "more time spent returning than shopping"
+    title: "Lost Revenue",
+    description: "Returns don't just cost money to process — they destroy customer trust and reduce the chance of a repeat purchase significantly.",
+    icon: TrendingDown,
+    stat: "$218B",
+    statLabel: "lost globally to fashion returns annually",
+    source: "NRF & Happy Returns, 2023"
   },
   {
-    title: "Uncertainty Before Buying",
-    description: "Will it be too tight around the shoulders? Too loose at the waist? Photos don't tell the whole story.",
+    title: "Hesitation Before Buying",
+    description: "Uncertainty about fit is the number one reason shoppers abandon carts or avoid buying from brands they haven't tried before.",
     icon: AlertCircle,
-    stat: "89%",
-    statLabel: "hesitate to buy from new brands online"
+    stat: "64%",
+    statLabel: "abandon purchase due to sizing uncertainty",
+    source: "True Fit Consumer Survey, 2022"
   }
 ];
 
@@ -37,10 +41,10 @@ export function Problem() {
   return (
     <section className="py-24 px-6 relative" id="problem">
       <div className="absolute inset-0 bg-background/50 z-0" />
-      
+
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -48,14 +52,14 @@ export function Problem() {
           >
             The E-Commerce <span className="text-muted-foreground">Guessing Game</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            Shopping for clothes online is broken. We rely on static size charts and models who don't share our body type.
+            Shopping for clothes online is broken. Shoppers rely on static size charts and models who don't share their body type.
           </motion.p>
         </div>
 
@@ -67,7 +71,7 @@ export function Problem() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-card/50 backdrop-blur-sm border border-card-border p-8 rounded-2xl glow-border hover:bg-card/80 transition-all group"
+              className="bg-card/50 backdrop-blur-sm border border-border p-8 rounded-2xl hover:bg-card/80 transition-all group"
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="p-3 bg-secondary/50 rounded-xl">
@@ -79,7 +83,8 @@ export function Problem() {
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-muted-foreground">{item.description}</p>
+              <p className="text-muted-foreground mb-3">{item.description}</p>
+              <p className="text-xs text-muted-foreground/50 font-mono">Source: {item.source}</p>
             </motion.div>
           ))}
         </div>
