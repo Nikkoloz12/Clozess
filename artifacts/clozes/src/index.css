@@ -88,10 +88,10 @@
   --border: 32 14% 22%;
   --card: 30 15% 16%;
   --card-foreground: 220 20% 92%;
-  --card-border: 225 12% 24%;
-  --popover: 225 14% 18%;
+  --card-border: 32 14% 22%;
+  --popover: 30 15% 16%;
   --popover-foreground: 220 20% 92%;
-  --popover-border: 225 12% 24%;
+  --popover-border: 32 14% 22%;
 
   --primary: 36 65% 58%;
   --primary-foreground: 225 15% 10%;
@@ -103,7 +103,7 @@
   --accent-foreground: 225 15% 10%;
   --destructive: 5 70% 52%;
   --destructive-foreground: 220 20% 92%;
-  --input: 225 12% 24%;
+  --input: 32 14% 22%;
   --ring: 36 65% 58%;
 }
 
