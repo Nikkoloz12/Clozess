@@ -19,4 +19,14 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    allowedHosts: "all",
+    port: 4173,
+    proxy: {
+      "/api": {
+        target: process.env.API_URL ?? "http://localhost:3000",
+        changeOrigin: true,
+      },
+    },
+  },
 });
