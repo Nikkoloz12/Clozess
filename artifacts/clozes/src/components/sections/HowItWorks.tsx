@@ -34,7 +34,7 @@ export function HowItWorks() {
               viewport={{ once: true }}
               className="text-xs font-mono text-primary uppercase tracking-widest mb-4"
             >
-              How It Works
+              
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
