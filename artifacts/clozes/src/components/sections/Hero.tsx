@@ -29,7 +29,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/70 border border-border text-sm mb-5 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/70 border border-border text-sm mb-5 backdrop-blur-sm"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-muted-foreground">Now Onboarding Brand Partners</span>
