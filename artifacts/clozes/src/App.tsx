@@ -29,7 +29,7 @@ function Navbar({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-100 ${
         scrolled
           ? "bg-background/90 backdrop-blur-md border-b border-border shadow-sm"
           : "bg-transparent"

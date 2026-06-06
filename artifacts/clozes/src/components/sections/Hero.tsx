@@ -129,9 +129,9 @@ export function Hero() {
 
           {/* Animated scan line */}
           <motion.div
-            className="absolute left-0 right-0 h-[2px] bg-primary/70 shadow-[0_0_16px_hsl(var(--primary)/0.7)]"
+            className="absolute left-0 right-0 h-[2px] bg-primary/70" style={{ willChange: "top" }}
             animate={{ top: ["5%", "95%", "5%"] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
           />
 
           {/* Top left badge */}

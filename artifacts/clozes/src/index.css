@@ -144,3 +144,13 @@ html {
 section + section {
   border-top: 1px solid hsl(var(--border) / 0.5);
 }
+@supports (-webkit-hef: none) {
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  .animate-pulse {
+    animation-duration: 3s;
+  }
+}
