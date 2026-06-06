@@ -20,14 +20,6 @@ const problems = [
     source: "Shopify & Klarna, 2023"
   },
   {
-    title: "Lost Revenue",
-    description: "Returns don't just cost money to process — they destroy customer trust and reduce the chance of a repeat purchase significantly.",
-    icon: TrendingDown,
-    stat: "$218B",
-    statLabel: "lost globally to fashion returns annually",
-    source: "NRF & Happy Returns, 2023"
-  },
-  {
     title: "Hesitation Before Buying",
     description: "Uncertainty about fit is the number one reason shoppers abandon carts or avoid buying from brands they haven't tried before.",
     icon: AlertCircle,
