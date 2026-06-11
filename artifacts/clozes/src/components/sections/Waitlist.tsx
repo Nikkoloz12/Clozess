@@ -22,7 +22,7 @@ export function Waitlist() {
     setError("");
 
     try {
-      const res = await fetch("/api/waitlist", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/waitlist`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email }),

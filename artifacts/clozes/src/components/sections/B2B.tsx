@@ -15,7 +15,7 @@ export function B2B() {
     setError("");
 
     try {
-      const res = await fetch("/api/integration-request", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/integration-request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
