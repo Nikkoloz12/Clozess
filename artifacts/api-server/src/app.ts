@@ -25,10 +25,19 @@ app.use(
     },
   }),
 );
-app.use(cors());
+
+app.use(cors({
+  origin: [
+    "https://clozes.app",
+    "https://www.clozes.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+  ],
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use("/api", router);
 
 export default app;
