@@ -5,6 +5,7 @@ import integrationRequestRouter from "./integrationRequest";
 import brandsRouter from "./brands";
 import productsRouter from "./products";
 import sizeChartsRouter from "./sizeCharts";
+import widgetSettingsRouter from "./widgetSettings";
 
 const router: IRouter = Router();
 router.use(healthRouter);
@@ -13,5 +14,6 @@ router.use(integrationRequestRouter);
 router.use(brandsRouter);
 router.use(productsRouter);
 router.use(sizeChartsRouter);
+router.use(widgetSettingsRouter);
 
 export default router;
