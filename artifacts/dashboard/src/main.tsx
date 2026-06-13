@@ -413,7 +413,8 @@ function Dashboard({ apiKey, brand, analytics: initialAnalytics, onLogout }: {
         )}
 
         {activeTab === "products" && <ProductCatalog apiKey={apiKey} />}
-
+        {activeTab === "sizecharts" && <SizeCharts apiKey={apiKey} />}
+{activeTab === "widget" && <WidgetCustomizer apiKey={apiKey} />}
         {activeTab === "widget" && <WidgetCustomizer apiKey={apiKey} />}
         {activeTab === "integration" && (
         <div className="space-y-6">
