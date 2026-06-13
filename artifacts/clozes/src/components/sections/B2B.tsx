@@ -81,9 +81,8 @@ export function B2B() {
           <h3 className="text-xl font-bold mb-2">Try the widget yourself</h3>
           <p className="text-muted-foreground text-sm mb-6">This is exactly what your customers will see on your product pages.</p>
           <div className="border border-border rounded-xl p-6 bg-secondary/20 text-left mb-4">
-            <h4 className="font-semibold mb-1">Blue Oxford Shirt — $89</h4>
-            <p className="text-sm text-muted-foreground mb-4">Size: XS S M L XL 2XL</p>
-            <button
+          <p className="text-sm text-muted-foreground mb-4">Available Sizes: XS S M L XL 2XL</p>
+          <button
               onClick={() => setDemoOpen(true)}
               className="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
             >
