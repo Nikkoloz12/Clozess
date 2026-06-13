@@ -262,9 +262,9 @@ export function FitDemo() {
                         <span className="text-muted-foreground">{name}</span>
                         <div className="flex items-center gap-3">
                           {data.userValue !== null && (
-                            <span className="text-xs text-muted-foreground/60">yours: {data.userValue}"</span>
+                            <span className="text-xs text-muted-foreground/60">yours: {data.userValue}cm</span>
                           )}
-                          <span className="font-mono font-medium text-foreground">{data.chartValue}"</span>
+                          <span className="font-mono font-medium text-foreground">{data.chartValue}cm</span>
                         </div>
                       </div>
                     ))}
