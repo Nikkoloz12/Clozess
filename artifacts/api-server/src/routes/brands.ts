@@ -5,7 +5,6 @@ import crypto from "crypto";
 
 const router: IRouter = Router();
 
-// Register a new brand and get an API key
 router.post("/brands/register", async (req, res) => {
   const { name, email, website } = req.body;
   if (!name || !email || !website) {
@@ -26,28 +25,16 @@ router.post("/brands/register", async (req, res) => {
   }
 });
 
-// Get brand stats for dashboard
 router.get("/brands/stats", async (req, res) => {
   const apiKey = req.headers["x-api-key"] as string;
-  if (!apiKey) {
-    res.status(401).json({ error: "API key required." });
-    return;
-  }
+  if (!apiKey) { res.status(401).json({ error: "API key required." }); return; }
   try {
     const [brand] = await db.select().from(brandsTable).where(eq(brandsTable.apiKey, apiKey));
-    if (!brand) {
-      res.status(401).json({ error: "Invalid API key." });
-      return;
-    }
+    if (!brand) { res.status(401).json({ error: "Invalid API key." }); return; }
     const analyses = await db.select().from(fitAnalysesTable).where(eq(fitAnalysesTable.brandId, brand.id));
     const totalAnalyses = analyses.length;
-    const avgFitScore = totalAnalyses > 0
-      ? Math.round(analyses.reduce((sum, a) => sum + a.fitScore, 0) / totalAnalyses)
-      : 0;
-    const sizeBreakdown = analyses.reduce((acc: Record<string, number>, a) => {
-      acc[a.recommendedSize] = (acc[a.recommendedSize] || 0) + 1;
-      return acc;
-    }, {});
+    const avgFitScore = totalAnalyses > 0 ? Math.round(analyses.reduce((sum, a) => sum + a.fitScore, 0) / totalAnalyses) : 0;
+    const sizeBreakdown = analyses.reduce((acc: Record<string, number>, a) => { acc[a.recommendedSize] = (acc[a.recommendedSize] || 0) + 1; return acc; }, {});
     res.json({ brand: { name: brand.name, email: brand.email }, totalAnalyses, avgFitScore, sizeBreakdown });
   } catch (err) {
     console.error("Brand stats error:", err);
@@ -55,64 +42,57 @@ router.get("/brands/stats", async (req, res) => {
   }
 });
 
-// Fit analysis endpoint — used by the widget
 router.post("/fit/analyze", async (req, res) => {
   const apiKey = req.headers["x-api-key"] as string;
-  if (!apiKey) {
-    res.status(401).json({ error: "API key required." });
-    return;
-  }
+  if (!apiKey) { res.status(401).json({ error: "API key required." }); return; }
   try {
     const [brand] = await db.select().from(brandsTable).where(eq(brandsTable.apiKey, apiKey));
-    if (!brand) {
-      res.status(401).json({ error: "Invalid API key." });
-      return;
-    }
+    if (!brand) { res.status(401).json({ error: "Invalid API key." }); return; }
     const { garmentType, gender, measurements } = req.body;
     if (!garmentType || !gender || !measurements) {
       res.status(400).json({ error: "garmentType, gender and measurements are required." });
       return;
     }
 
-    // Size chart logic
-    const primaryMeasure = measurements.chest ?? measurements.bust ?? measurements.waist ?? measurements.headCircumference ?? 0;
-    const sizeCharts: Record<string, number[]> = {
-      "Short Sleeve T-Shirt": [37, 40, 43, 46, 49, 52, 56, 60],
-      "Long Sleeve T-Shirt": [38, 41, 44, 47, 51, 55, 59, 63],
-      "Polo Shirt": [37.5, 40.5, 43.5, 46.5, 49.5, 52.5, 56.5, 60.5],
-      "Tank Top": [36, 39, 42, 45, 48, 51, 55, 59],
-      "Sweatshirt / Hoodie": [38, 40, 43, 46, 49, 52, 56, 60],
-      "Jacket": [38, 41, 44, 47, 50, 53, 57, 61],
-      "Sweater": [39, 42, 45, 48, 51, 54, 58, 62],
-      "Pants": [26.5, 28.5, 30.5, 32.5, 34.5, 36.5, 38.5, 40.5],
-      "Hat": [21.25, 22.0, 22.75, 23.7, 24.4, 25.25],
-      "Dress": [32, 33, 34, 35, 36, 37.5, 39, 41],
+    const menCharts: Record<string, { values: number[]; sizes: string[] }> = {
+      "Short Sleeve T-Shirt": { values: [94,101.6,109.2,116.8,124.5,132,142.2,152.4], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Long Sleeve T-Shirt": { values: [96.5,104.1,111.8,119.4,129.5,139.7,149.9,160], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Polo Shirt": { values: [95.3,102.9,110.5,118.1,125.7,133.4,143.5,153.7,163.8,174], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL","5XL","6XL"] },
+      "Tank Top": { values: [91.4,99.1,106.7,114.3,121.9,129.5,139.7,149.9], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Sweatshirt / Hoodie": { values: [96.5,101.6,109.2,116.8,124.5,132,142.2,152.4], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Jacket": { values: [96.5,104.1,111.8,119.4,127,134.6,144.8,155], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Sweater": { values: [99.1,106.7,114.3,121.9,129.5,137.2,147.3,157.5], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Pants": { values: [67.3,72.4,77.5,82.6,87.6,92.7,97.8,102.9,108,113,118.1,123.2], sizes: ["28W","30W","32W","34W","36W","38W","40W","42W","44W","46W","48W","50W"] },
+      "Hat": { values: [54,55.9,57.8,60.1,62,64.5], sizes: ["S","M","L","XL","XXL","XXXL"] },
     };
-    const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
-    const hatSizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
-    const pantSizes = ["28W", "30W", "32W", "34W", "36W", "38W", "40W", "42W"];
 
-    const chart = sizeCharts[garmentType] ?? sizeCharts["Short Sleeve T-Shirt"];
-    let bestIndex = 0;
-    let bestDiff = Infinity;
-    chart.forEach((v, i) => {
+    const womenCharts: Record<string, { values: number[]; sizes: string[] }> = {
+      "Short Sleeve T-Shirt": { values: [81.3,88.9,96.5,104.1,114.3,124.5,134.6,144.8], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Long Sleeve T-Shirt": { values: [81.3,88.9,96.5,104.1,114.3,124.5,134.6,144.8], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Polo Shirt": { values: [83.8,91.4,99.1,106.7,116.8,127,137.2,147.3,157.5,167.6], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL","5XL","6XL"] },
+      "Tank Top": { values: [78.7,86.4,94,101.6,111.8,121.9,132,142.2], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Sweatshirt / Hoodie": { values: [86.4,94,101.6,109.2,119.4,129.5,139.7,149.9], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Jacket": { values: [86.4,94,101.6,109.2,119.4,129.5,139.7,149.9], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Sweater": { values: [88.9,96.5,104.1,111.8,121.9,132,142.2,152.4], sizes: ["XS","S","M","L","XL","2XL","3XL","4XL"] },
+      "Pants": { values: [61,63.5,66,68.6,71.1,74.9,78.7,83.8,88.9,94,99.1,104.1,109.2], sizes: ["0","2","4","6","8","10","12","14","16","18W","20W","22W","24W"] },
+      "Dress": { values: [81.3,83.8,86.4,88.9,91.4,95.3,99.1,104.1,109.2,114.3], sizes: ["0","2","4","6","8","10","12","14","16","18"] },
+      "Hat": { values: [54,55.9,57.8,60.1], sizes: ["S","M","L","XL"] },
+    };
+
+    const charts = gender === "women" ? womenCharts : menCharts;
+    const chart = charts[garmentType] ?? charts["Short Sleeve T-Shirt"];
+    const primaryMeasure = measurements.chest ?? measurements.bust ?? measurements.waist ?? measurements.headCircumference ?? 0;
+
+    let bestIndex = 0, bestDiff = Infinity;
+    chart.values.forEach((v: number, i: number) => {
       const diff = Math.abs(v - primaryMeasure);
       if (diff < bestDiff) { bestDiff = diff; bestIndex = i; }
     });
 
-    const sizeList = garmentType === "Hat" ? hatSizes : garmentType === "Pants" ? pantSizes : sizes;
-    const recommendedSize = sizeList[bestIndex] ?? "M";
-    const fitScore = Math.max(70, 100 - Math.round(bestDiff * 3));
+    const recommendedSize = chart.sizes[bestIndex] ?? "M";
+    const fitScore = Math.max(70, 100 - Math.round(bestDiff * 1.5));
 
-    await db.insert(fitAnalysesTable).values({
-      brandId: brand.id,
-      garmentType,
-      gender,
-      measurements,
-      recommendedSize,
-      fitScore,
-    });
-
+    await db.insert(fitAnalysesTable).values({ brandId: brand.id, garmentType, gender, measurements, recommendedSize, fitScore });
     res.json({ recommendedSize, fitScore, confidence: fitScore });
   } catch (err) {
     console.error("Fit analyze error:", err);
