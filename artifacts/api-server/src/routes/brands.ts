@@ -101,3 +101,83 @@ router.post("/fit/analyze", async (req, res) => {
 });
 
 export default router;
+
+// Detailed analytics endpoint
+router.get("/brands/analytics", async (req, res) => {
+  const apiKey = req.headers["x-api-key"] as string;
+  if (!apiKey) { res.status(401).json({ error: "API key required." }); return; }
+  try {
+    const [brand] = await db.select().from(brandsTable).where(eq(brandsTable.apiKey, apiKey));
+    if (!brand) { res.status(401).json({ error: "Invalid API key." }); return; }
+
+    const analyses = await db.select().from(fitAnalysesTable).where(eq(fitAnalysesTable.brandId, brand.id));
+
+    // Daily trend — last 30 days
+    const now = new Date();
+    const last30 = Array.from({ length: 30 }, (_, i) => {
+      const d = new Date(now);
+      d.setDate(d.getDate() - (29 - i));
+      return d.toISOString().split("T")[0];
+    });
+
+    const dailyCounts = last30.map(date => ({
+      date,
+      count: analyses.filter(a => a.createdAt.toISOString().split("T")[0] === date).length,
+    }));
+
+    // Garment type breakdown
+    const garmentBreakdown = analyses.reduce((acc: Record<string, number>, a) => {
+      acc[a.garmentType] = (acc[a.garmentType] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Gender breakdown
+    const genderBreakdown = analyses.reduce((acc: Record<string, number>, a) => {
+      acc[a.gender] = (acc[a.gender] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Size breakdown
+    const sizeBreakdown = analyses.reduce((acc: Record<string, number>, a) => {
+      acc[a.recommendedSize] = (acc[a.recommendedSize] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Avg fit score per garment
+    const garmentScores: Record<string, number[]> = {};
+    analyses.forEach(a => {
+      if (!garmentScores[a.garmentType]) garmentScores[a.garmentType] = [];
+      garmentScores[a.garmentType].push(a.fitScore);
+    });
+    const avgScoreByGarment = Object.entries(garmentScores).map(([garment, scores]) => ({
+      garment,
+      avgScore: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
+    }));
+
+    // Weekly totals
+    const weeklyTotals = [0, 1, 2, 3].map(weeksAgo => {
+      const start = new Date(now);
+      start.setDate(start.getDate() - (weeksAgo + 1) * 7);
+      const end = new Date(now);
+      end.setDate(end.getDate() - weeksAgo * 7);
+      return {
+        week: weeksAgo === 0 ? "This week" : weeksAgo === 1 ? "Last week" : `${weeksAgo} weeks ago`,
+        count: analyses.filter(a => a.createdAt >= start && a.createdAt < end).length,
+      };
+    }).reverse();
+
+    res.json({
+      totalAnalyses: analyses.length,
+      avgFitScore: analyses.length > 0 ? Math.round(analyses.reduce((s, a) => s + a.fitScore, 0) / analyses.length) : 0,
+      dailyCounts,
+      weeklyTotals,
+      garmentBreakdown,
+      genderBreakdown,
+      sizeBreakdown,
+      avgScoreByGarment,
+    });
+  } catch (err) {
+    console.error("Analytics error:", err);
+    res.status(500).json({ error: "Something went wrong." });
+  }
+});
