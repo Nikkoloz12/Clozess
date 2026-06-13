@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Globe2, ShieldCheck, ArrowRight, Loader2, CheckCircle2, X, Activity } from "lucide-react";
+import { Code2, Globe2, ShieldCheck, ArrowRight, Loader2, CheckCircle2, X, Activity, ChevronRight } from "lucide-react";
 import { FitDemo } from "./FitDemo";
 
 export function B2B() {
@@ -37,6 +37,8 @@ export function B2B() {
   return (
     <section className="py-24 px-6 bg-secondary/20 border-y border-border" id="business">
       <div className="max-w-7xl mx-auto">
+
+        {/* Header */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <div className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-mono mb-6 uppercase tracking-widest">
             Clozes Platform
@@ -45,15 +47,16 @@ export function B2B() {
             Power Your Store With Fit Intelligence
           </h2>
           <p className="text-lg text-muted-foreground">
-            Integrate our engine via API or drop-in UI components and watch return rates drop. Your customers get perfect fit every time.
+            One line of code. Instant size recommendations. Fewer returns.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {[
-            { icon: Code2, title: "Drop-in SDK", desc: "Add a 'Find My Fit' button to your product pages in less than 10 lines of code. Fully white-labeled and customizable to match your brand." },
-            { icon: Globe2, title: "Universal Profiles", desc: "When a shopper visits any Clozes-powered store, their fit profile travels with them. Zero friction, instant personalization." },
-            { icon: ShieldCheck, title: "Proven ROI", desc: "Our partners see an average 38% decrease in size-related returns within the first quarter of integration." }
+            { icon: Code2, title: "Drop-in SDK", desc: "Add a 'Find My Fit' button to your product pages in less than 10 lines of code. Fully white-labeled." },
+            { icon: Globe2, title: "Universal Profiles", desc: "When a shopper visits any Clozes-powered store, their fit profile travels with them. Zero friction." },
+            { icon: ShieldCheck, title: "Proven ROI", desc: "Our partners see an average 38% decrease in size-related returns within the first quarter." }
           ].map((feature, i) => (
             <motion.div
               key={i}
@@ -70,27 +73,86 @@ export function B2B() {
           ))}
         </div>
 
-        {/* Live widget demo */}
+        {/* Live demo — full width, premium feel */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-2xl mx-auto mb-12 bg-card border border-border rounded-2xl p-8 text-center"
+          className="mb-20 rounded-3xl overflow-hidden border border-border relative"
+          style={{ background: "linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--secondary)/0.5) 100%)" }}
         >
-          <p className="text-xs font-mono text-primary uppercase tracking-widest mb-3">Live Demo</p>
-          <h3 className="text-xl font-bold mb-2">Try the widget yourself</h3>
-          <p className="text-muted-foreground text-sm mb-6">This is exactly what your customers will see on your product pages.</p>
-          <div className="border border-border rounded-xl p-6 bg-secondary/20 text-left mb-4">
-          <p className="text-sm text-muted-foreground mb-4">Available Sizes: XS S M L XL 2XL</p>
-          <button
-              onClick={() => setDemoOpen(true)}
-              className="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
-            >
-              <Activity className="w-4 h-4" />
-              Find My Fit
-            </button>
+          {/* Top accent */}
+          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            {/* Left: copy */}
+            <div className="p-10 md:p-14 flex flex-col justify-center">
+              <span className="text-xs font-mono text-primary uppercase tracking-widest mb-4">Live Demo</span>
+              <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                See exactly what your<br />customers experience.
+              </h3>
+              <p className="text-muted-foreground mb-8 leading-relaxed">
+                This is the widget your shoppers see when they click "Find My Fit" on your product pages. Try it yourself — enter any measurements and get an instant size recommendation.
+              </p>
+              <div className="space-y-3 mb-8">
+                {[
+                  "Works on any website or platform",
+                  "Supports 10+ garment types",
+                  "Available in Men's and Women's sizing",
+                  "Powered by real size chart data",
+                ].map(point => (
+                  <div key={point} className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <ChevronRight className="w-4 h-4 text-primary shrink-0" />
+                    {point}
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => setDemoOpen(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors text-sm w-fit"
+              >
+                <Activity className="w-4 h-4" />
+                Launch Live Demo
+              </button>
+            </div>
+
+            {/* Right: visual preview */}
+            <div className="relative p-8 md:p-10 flex items-center justify-center bg-secondary/30 border-l border-border">
+              {/* Fake browser chrome */}
+              <div className="w-full max-w-sm">
+                <div className="bg-card rounded-2xl border border-border shadow-xl overflow-hidden">
+                  {/* Browser bar */}
+                  <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border bg-secondary/50">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                    <div className="flex-1 mx-3 bg-background rounded-md px-3 py-1 text-xs text-muted-foreground font-mono">
+                      yourbrand.com/products
+                    </div>
+                  </div>
+                  {/* Page content */}
+                  <div className="p-5">
+                    <div className="h-2.5 bg-muted rounded-full w-3/4 mb-2" />
+                    <div className="h-2 bg-muted/60 rounded-full w-1/2 mb-5" />
+                    <div className="h-32 bg-muted/30 rounded-xl mb-4 flex items-center justify-center border border-border">
+                      <span className="text-xs text-muted-foreground">Product Image</span>
+                    </div>
+                    <div className="h-2 bg-muted/60 rounded-full w-2/3 mb-2" />
+                    <div className="h-2 bg-muted/40 rounded-full w-1/2 mb-4" />
+                    {/* The widget button */}
+                    <button
+                      onClick={() => setDemoOpen(true)}
+                      className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
+                    >
+                      <Activity className="w-3.5 h-3.5" />
+                      Find My Fit
+                    </button>
+                  </div>
+                </div>
+                <p className="text-center text-xs text-muted-foreground mt-3">Powered by <strong>Clozes</strong></p>
+              </div>
+            </div>
           </div>
-          <p className="text-xs text-muted-foreground">Powered by <strong>Clozes</strong> · clozes.app</p>
         </motion.div>
 
         {/* Integration request form */}
