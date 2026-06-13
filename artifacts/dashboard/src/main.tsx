@@ -2,6 +2,8 @@ import "./index.css";
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { SizeCharts } from "./SizeCharts";
+import { WidgetCustomizer } from "./WidgetCustomizer";
+
 
 
 const API_URL = import.meta.env.VITE_API_URL || "";
@@ -264,8 +266,7 @@ function Dashboard({ apiKey, brand, analytics: initialAnalytics, onLogout }: {
 }) {
   const [analytics, setAnalytics] = useState(initialAnalytics);
   const [refreshing, setRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState<"overview" | "sizes" | "garments" | "products" | "sizecharts" | "integration">("overview");
-  const refresh = async () => {
+  const [activeTab, setActiveTab] = useState<"overview" | "sizes" | "garments" | "products" | "sizecharts" | "widget" | "integration">("overview");  const refresh = async () => {
     setRefreshing(true);
     try {
       const res = await fetch(`${API_URL}/api/brands/analytics`, { headers: { "x-api-key": apiKey } });
@@ -286,6 +287,7 @@ function Dashboard({ apiKey, brand, analytics: initialAnalytics, onLogout }: {
     { id: "garments", label: "Garments" },
     { id: "products", label: "Products" },
     { id: "sizecharts", label: "Size Charts" },
+    { id: "widget", label: "Widget" },
     { id: "integration", label: "Integration" },
   ] as const;
 
@@ -412,10 +414,9 @@ function Dashboard({ apiKey, brand, analytics: initialAnalytics, onLogout }: {
 
         {activeTab === "products" && <ProductCatalog apiKey={apiKey} />}
 
-        {activeTab === "sizecharts" && <SizeCharts apiKey={apiKey} />}
-
-{activeTab === "integration" && (
-  <div className="space-y-6">
+        {activeTab === "widget" && <WidgetCustomizer apiKey={apiKey} />}
+        {activeTab === "integration" && (
+        <div className="space-y-6">
             <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
               <h3 className="text-base font-semibold text-stone-900 mb-2">Your API Key</h3>
               <p className="text-stone-500 text-sm mb-4">Keep this private.</p>
