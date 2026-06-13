@@ -30,6 +30,8 @@ app.use(cors({
   origin: [
     "https://clozes.app",
     "https://www.clozes.app",
+    "https://clozess-dashboard.vercel.app",
+    "https://dashboard.clozes.app",
     "http://localhost:5173",
     "http://localhost:3000",
   ],
