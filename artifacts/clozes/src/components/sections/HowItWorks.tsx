@@ -66,9 +66,7 @@ export function HowItWorks() {
                 >
                   <div className="flex flex-col items-center">
                     <div className={`w-11 h-11 rounded-full flex items-center justify-center font-mono text-sm border shrink-0 transition-all ${
-                      idx === 0
-                        ? "bg-primary/15 border-primary text-primary shadow-[0_0_15px_hsl(var(--primary)/0.2)]"
-                        : "border-border text-muted-foreground group-hover:border-primary/40 group-hover:text-primary/60"
+                      "border-border text-muted-foreground group-hover:border-primary/40 group-hover:text-primary/60"
                     }`}>
                       {step.num}
                     </div>
