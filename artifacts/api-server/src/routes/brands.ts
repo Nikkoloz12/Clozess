@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
-import { db, brandsTable, fitAnalysesTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { db, brandsTable, fitAnalysesTable, sizeChartsTable } from "@workspace/db";
+import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 
 const router: IRouter = Router();
@@ -79,7 +79,17 @@ router.post("/fit/analyze", async (req, res) => {
       "Hat": { values: [54,55.9,57.8,60.1], sizes: ["S","M","L","XL"] },
     };
 
-    const charts = gender === "women" ? womenCharts : menCharts;
+    const [customChart] = await db.select().from(sizeChartsTable).where(
+  and(
+    eq(sizeChartsTable.brandId, brand.id),
+    eq(sizeChartsTable.garmentType, garmentType),
+    eq(sizeChartsTable.gender, gender)
+  )
+);
+
+const charts = customChart
+  ? { [garmentType]: customChart.sizes as { values: number[]; sizes: string[] } }
+  : gender === "women" ? womenCharts : menCharts;
     const chart = charts[garmentType] ?? charts["Short Sleeve T-Shirt"];
     const primaryMeasure = measurements.chest ?? measurements.bust ?? measurements.waist ?? measurements.headCircumference ?? 0;
 
