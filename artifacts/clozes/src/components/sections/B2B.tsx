@@ -80,7 +80,17 @@ export function B2B() {
             </motion.div>
           ))}
         </div>
-
+          {/* Live widget demo */}
+        <div className="max-w-2xl mx-auto mb-12 bg-card border border-border rounded-2xl p-8 text-center">
+          <p className="text-xs font-mono text-primary uppercase tracking-widest mb-3">Live Demo</p>
+          <h3 className="text-xl font-bold mb-2">Try the widget yourself</h3>
+          <p className="text-muted-foreground text-sm mb-6">This is exactly what your customers will see on your product pages.</p>
+          <div className="border border-border rounded-xl p-6 bg-secondary/20 text-left">
+            <h4 className="font-semibold mb-1">Blue Oxford Shirt — $89</h4>
+            <p className="text-sm text-muted-foreground mb-4">Size: XS S M L XL 2XL</p>
+            <div id="clozes-demo-widget" />
+          </div>
+        </div>
         {/* Integration request form */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
