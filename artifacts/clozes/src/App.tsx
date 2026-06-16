@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sun, Moon, Menu, X } from "lucide-react";
-
+import { translations, type Lang } from "./i18n";
 import { Hero } from "./components/sections/Hero";
 import { FitDemo } from "./components/sections/FitDemo";
 import { Problem } from "./components/sections/Problem";
@@ -26,7 +26,7 @@ const navLinks = [
   { href: "#pricing", label: "Pricing" },
 ];
 
-function Navbar({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
+function Navbar({ dark, onToggle, lang, onLangToggle }: { dark: boolean; onToggle: () => void; lang: Lang; onLangToggle: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -73,6 +73,12 @@ function Navbar({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
           </nav>
 
           <div className="flex items-center gap-3">
+          <button
+onClick={onLangToggle}
+  className="p-2 rounded-full border border-border bg-secondary hover:bg-muted transition-colors text-foreground text-xs font-bold w-9 h-9 flex items-center justify-center"
+>
+{lang === "en" ? "ქა" : "EN"}
+</button>
             <button
               onClick={onToggle}
               data-testid="button-theme-toggle"
@@ -127,10 +133,10 @@ function Navbar({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
   );
 }
 
-function Home({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
+function Home({ dark, onToggle, lang, onLangToggle }: { dark: boolean; onToggle: () => void; lang: Lang; onLangToggle: () => void }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar dark={dark} onToggle={onToggle} />
+<Navbar dark={dark} onToggle={onToggle} lang={lang} onLangToggle={onLangToggle} />
       <Hero />
       <FitDemo />
       <Problem />
@@ -146,6 +152,10 @@ function Home({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
 }
 
 function App() {
+  const [lang, setLang] = useState<Lang>(() => {
+  return (localStorage.getItem("clozes-lang") as Lang) || "en";
+});
+const t = translations[lang];
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem("clozes-theme");
     if (saved) return saved === "dark";
@@ -161,7 +171,9 @@ function App() {
       localStorage.setItem("clozes-theme", "light");
     }
   }, [dark]);
-
+useEffect(() => {
+  localStorage.setItem("clozes-lang", lang);
+}, [lang]);
   const toggleTheme = () => setDark((d) => !d);
 
   return (
@@ -169,7 +181,7 @@ function App() {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Switch>
-            <Route path="/" component={() => <Home dark={dark} onToggle={toggleTheme} />} />
+<Route path="/" component={() => <Home dark={dark} onToggle={toggleTheme} lang={lang} onLangToggle={() => setLang(l => l === "en" ? "ka" : "en")} />} />
             <Route>
               <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
                 <div className="text-center">
