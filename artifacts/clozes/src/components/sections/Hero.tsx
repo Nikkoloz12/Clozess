@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Activity, ChevronRight } from "lucide-react";
 
-export function Hero() {
+export function Hero({ t }: { t: typeof import("../../i18n").translations["en"]["hero"] }) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
@@ -32,7 +32,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/70 border border-border text-sm mb-5"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-muted-foreground">Now Onboarding Brand Partners</span>
+            <span className="text-muted-foreground">{t.badge}</span>
           </motion.div>
 
           <motion.h1
@@ -41,9 +41,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 leading-[1.08]"
           >
-            Experience Clothes<br />
-            <span className="text-primary">Before You</span><br />
-            Wear Them.
+            {t.title1}<br />
+            <span className="text-primary">{t.title2}</span><br />
+            {t.title3}
           </motion.h1>
 
           <motion.p
@@ -52,8 +52,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-base md:text-lg text-muted-foreground max-w-lg mb-7 leading-relaxed"
           >
-            AI-powered fit intelligence that predicts comfort, sizing, and outfit
-            compatibility before your customers buy — reducing returns and increasing trust.
+            {t.subtitle}
           </motion.p>
 
           <motion.div
@@ -67,7 +66,7 @@ export function Hero() {
               data-testid="button-try-demo"
               className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 group text-sm"
             >
-              Try the Demo
+              T{t.tryDemo}
               <Activity className="w-4 h-4 group-hover:animate-pulse" />
             </a>
             <a
@@ -75,7 +74,7 @@ export function Hero() {
               data-testid="button-early-access"
               className="px-6 py-3 rounded-lg bg-secondary text-foreground font-medium hover:bg-muted border border-border transition-colors flex items-center gap-2 group text-sm"
             >
-              Join Early Access
+            {t.joinEarlyAccess}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </motion.div>
@@ -88,9 +87,9 @@ export function Hero() {
             className="flex gap-8 pt-2 border-t border-border"
           >
             {[
-              { value: "67%", label: "Fewer Returns" },
-              { value: "89%", label: "Fit Accuracy" },
-              { value: "3s", label: "Analysis Time" },
+              { value: "67%", label: t.fewerReturns },
+              { value: "89%", label: t.fitAccuracy },
+              { value: "3s", label: t.analysisTime },
             ].map((stat) => (
               <div key={stat.label} className="pt-4">
                 <div className="text-2xl font-bold text-primary">{stat.value}</div>

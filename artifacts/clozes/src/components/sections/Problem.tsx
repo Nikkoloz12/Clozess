@@ -2,44 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { AlertCircle, Ruler, RefreshCcw, TrendingDown } from "lucide-react";
 
-const problems = [
-  {
-    title: "Inconsistent Sizing",
-    description: "A medium from one brand is a large in another. Size charts are static, vary wildly across brands, and give shoppers no real guidance.",
-    icon: Ruler,
-    stat: "60%",
-    statLabel: "of shoppers buy multiple sizes to return one",
-    source: "Barclaycard, 2023"
-  },
-  {
-    title: "The Return Crisis",
-    description: "Fit and sizing issues are the single biggest driver of online fashion returns, costing brands billions and generating enormous waste.",
-    icon: RefreshCcw,
-    stat: "70%",
-    statLabel: "of fashion returns are due to poor fit",
-    source: "Shopify & Klarna, 2023"
-  },
-  {
-    title: "Lost Revenue",
-    description: "Returns don't just cost money to process — they destroy customer trust and reduce the chance of a repeat purchase significantly.",
-    icon: TrendingDown,
-    stat: "21%",
-    statLabel: "lost globally to fashion returns annually",
-    source: "NRF & Happy Returns, 2023"
-  },
-  {
-    title: "Hesitation Before Buying",
-    description: "Uncertainty about fit is the number one reason shoppers abandon carts or avoid buying from brands they haven't tried before.",
-    icon: AlertCircle,
-    stat: "64%",
-    statLabel: "abandon purchase due to sizing uncertainty",
-    source: "True Fit Consumer Survey, 2022"
-  }
-];
-
-export function Problem() {
+export function Problem({ t }: { t: typeof import("../../i18n").translations["en"]["problem"] }) {
+  const problems = [
+    { title: t.card1.title, description: t.card1.desc, icon: Ruler, stat: t.card1.stat, statLabel: t.card1.statLabel, source: "Barclaycard, 2023" },
+    { title: t.card2.title, description: t.card2.desc, icon: RefreshCcw, stat: t.card2.stat, statLabel: t.card2.statLabel, source: "Shopify & Klarna, 2023" },
+    { title: t.card3.title, description: t.card3.desc, icon: TrendingDown, stat: t.card3.stat, statLabel: t.card3.statLabel, source: "NRF & Happy Returns, 2023" },
+    { title: t.card4.title, description: t.card4.desc, icon: AlertCircle, stat: t.card4.stat, statLabel: t.card4.statLabel, source: "True Fit Consumer Survey, 2022" },
+  ];
   return (
-    <section className="py-24 px-6 relative" id="problem">
+<section className="py-24 px-6 relative" id="problem">
       <div className="absolute inset-0 bg-background/50 z-0" />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -50,7 +21,7 @@ export function Problem() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
           >
-            The E-Commerce <span className="text-muted-foreground">Guessing Game</span>
+            {t.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

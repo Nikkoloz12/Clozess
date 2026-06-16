@@ -18,15 +18,16 @@ import { Footer } from "./components/sections/Footer";
 
 const queryClient = new QueryClient();
 
-const navLinks = [
-  { href: "#demo", label: "Demo" },
-  { href: "#problem", label: "Why Clozes" },
-  { href: "#how-it-works", label: "How It Works" },
-  { href: "#business", label: "For Brands" },
-  { href: "#pricing", label: "Pricing" },
-];
 
 function Navbar({ dark, onToggle, lang, onLangToggle }: { dark: boolean; onToggle: () => void; lang: Lang; onLangToggle: () => void }) {
+  const nav = translations[lang].nav;
+  const navLinks = [
+  { href: "#demo", label: nav.demo },
+  { href: "#problem", label: nav.whyClozes },
+  { href: "#how-it-works", label: nav.howItWorks },
+  { href: "#business", label: nav.forBrands },
+  { href: "#pricing", label: nav.pricing },
+];
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -133,20 +134,26 @@ onClick={onLangToggle}
   );
 }
 
-function Home({ dark, onToggle, lang, onLangToggle }: { dark: boolean; onToggle: () => void; lang: Lang; onLangToggle: () => void }) {
+function Home({ dark, onToggle, lang, onLangToggle, t }: { 
+  dark: boolean; 
+  onToggle: () => void; 
+  lang: Lang; 
+  onLangToggle: () => void;
+  t: typeof translations["en"];
+}) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-<Navbar dark={dark} onToggle={onToggle} lang={lang} onLangToggle={onLangToggle} />
-      <Hero />
-      <FitDemo />
-      <Problem />
-      <HowItWorks />
-      <OutfitMatching />
-      <B2B />
-      <Future />
-      <Pricing />
-      <Waitlist />
-      <Footer />
+      <Navbar dark={dark} onToggle={onToggle} lang={lang} onLangToggle={onLangToggle} />
+      <Hero t={t.hero} />
+<FitDemo />
+<Problem t={t.problem} />
+<HowItWorks />
+<OutfitMatching />
+<B2B />
+<Future />
+<Pricing />
+<Waitlist />
+<Footer />
     </div>
   );
 }
@@ -181,7 +188,7 @@ useEffect(() => {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Switch>
-<Route path="/" component={() => <Home dark={dark} onToggle={toggleTheme} lang={lang} onLangToggle={() => setLang(l => l === "en" ? "ka" : "en")} />} />
+<Route path="/" component={() => <Home dark={dark} onToggle={toggleTheme} lang={lang} onLangToggle={() => setLang(l => l === "en" ? "ka" : "en")} t={t} />} />
             <Route>
               <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
                 <div className="text-center">
