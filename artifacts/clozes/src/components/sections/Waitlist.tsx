@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
-export function Waitlist() {
+export function Waitlist({ t }: { t: typeof import("../../i18n").translations["en"]["waitlist"] }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -63,20 +63,20 @@ export function Waitlist() {
               <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
                 <CheckCircle2 className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-3xl font-bold mb-4">You're on the list.</h3>
-              <p className="text-muted-foreground">We'll notify you when your access is ready.</p>
+              <h3 className="text-3xl font-bold mb-4">{t.success}</h3>
+<p className="text-muted-foreground">{t.successMsg}</p>
             </motion.div>
           ) : (
             <>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Join the Future of Fashion.</h2>
-              <p className="text-muted-foreground mb-8">Early access is limited. Secure your spot on the waitlist.</p>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">{t.title}</h2>
+<p className="text-muted-foreground mb-8">{t.subtitle}</p>
 
               <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto text-left">
                 <div>
                   <label className="sr-only">Name</label>
                   <input
                     type="text"
-                    placeholder="Full Name"
+placeholder={t.name}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -88,7 +88,7 @@ export function Waitlist() {
                   <label className="sr-only">Email Address</label>
                   <input
                     type="email"
-                    placeholder="Email Address"
+placeholder={t.email}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -107,13 +107,13 @@ export function Waitlist() {
                   className="w-full bg-foreground text-background font-medium py-3 rounded-lg hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 group disabled:opacity-50"
                 >
                   {loading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      Join Waitlist
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
+  <Loader2 className="w-4 h-4 animate-spin" />
+) : (
+  <>
+    {t.join}
+    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+  </>
+)}
                 </button>
               </form>
             </>

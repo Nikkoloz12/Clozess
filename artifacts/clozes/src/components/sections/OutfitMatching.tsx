@@ -35,7 +35,7 @@ const baseItems = [
   },
 ];
 
-export function OutfitMatching() {
+export function OutfitMatching({ t }: { t: typeof import("../../i18n").translations["en"]["outfit"] }) {
   const [active, setActive] = useState(0);
   const current = baseItems[active];
 
@@ -145,7 +145,7 @@ export function OutfitMatching() {
               viewport={{ once: true }}
               className="text-xs font-mono text-primary uppercase tracking-widest mb-4"
             >
-              Complete the Look
+{t.badge}
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, x: 20 }}
@@ -153,8 +153,8 @@ export function OutfitMatching() {
               viewport={{ once: true }}
               className="text-3xl md:text-5xl font-bold tracking-tight mb-6"
             >
-              Pick one piece.<br />
-              <span className="text-muted-foreground">We build the outfit.</span>
+              {t.title1}<br />
+              <span className="text-muted-foreground">{t.title2}</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, x: 20 }}
@@ -163,7 +163,7 @@ export function OutfitMatching() {
               transition={{ delay: 0.1 }}
               className="text-lg text-muted-foreground mb-8 leading-relaxed"
             >
-              Select any item from your store and Clozes instantly suggests what goes with it — matching colors, proportions, and style. Customers buy more, return less.
+              {t.subtitle}
             </motion.p>
             <motion.ul
               initial={{ opacity: 0, x: 20 }}

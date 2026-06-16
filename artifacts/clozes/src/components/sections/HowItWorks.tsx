@@ -19,8 +19,12 @@ const steps = [
   },
 ];
 
-export function HowItWorks() {
-  return (
+export function HowItWorks({ t }: { t: typeof import("../../i18n").translations["en"]["howItWorks"] }) {
+  const steps = [
+    { num: "01", title: t.step1.title, description: t.step1.desc },
+    { num: "02", title: t.step2.title, description: t.step2.desc },
+    { num: "03", title: t.step3.title, description: t.step3.desc },
+  ];  return (
     <section className="py-24 px-6 bg-secondary/30 relative overflow-hidden" id="how-it-works">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-border to-transparent" />
 
@@ -42,8 +46,7 @@ export function HowItWorks() {
               viewport={{ once: true }}
               className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
             >
-              Intelligence <br /><span className="text-muted-foreground">In Motion.</span>
-            </motion.h2>
+{t.title1} <br /><span className="text-muted-foreground">{t.title2}</span>            </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -51,7 +54,7 @@ export function HowItWorks() {
               transition={{ delay: 0.1 }}
               className="text-muted-foreground mb-12 max-w-md"
             >
-              Three simple steps from measurement to confident purchase. No guesswork, no returns.
+{t.subtitle}
             </motion.p>
 
             <div className="space-y-8">

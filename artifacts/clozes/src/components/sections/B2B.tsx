@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Globe2, ShieldCheck, ArrowRight, Loader2, CheckCircle2, X, Activity, ChevronRight } from "lucide-react";
 import { FitDemo } from "./FitDemo";
 
-export function B2B() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+export function B2B({ t }: { t: typeof import("../../i18n").translations["en"]["b2b"] }) {  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -41,22 +40,22 @@ export function B2B() {
         {/* Header */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <div className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-mono mb-6 uppercase tracking-widest">
-            Clozes Platform
+{t.badge}          
           </div>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-            Power Your Store With Fit Intelligence
+{t.title}
           </h2>
           <p className="text-lg text-muted-foreground">
-            One line of code. Instant size recommendations. Fewer returns.
+{t.subtitle}
           </p>
         </div>
 
         {/* Feature cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {[
-            { icon: Code2, title: "Drop-in SDK", desc: "Add a 'Find My Fit' button to your product pages in less than 10 lines of code. Fully white-labeled." },
-            { icon: Globe2, title: "Universal Profiles", desc: "When a shopper visits any Clozes-powered store, their fit profile travels with them. Zero friction." },
-            { icon: ShieldCheck, title: "Proven ROI", desc: "Our partners see an average 38% decrease in size-related returns within the first quarter." }
+            { icon: Code2, title: t.feature1.title, desc: t.feature1.desc },
+            { icon: Globe2, title: t.feature2.title, desc: t.feature2.desc },
+            { icon: ShieldCheck, title: t.feature3.title, desc: t.feature3.desc }
           ].map((feature, i) => (
             <motion.div
               key={i}
@@ -89,18 +88,13 @@ export function B2B() {
             <div className="p-10 md:p-14 flex flex-col justify-center">
               <span className="text-xs font-mono text-primary uppercase tracking-widest mb-4">Live Demo</span>
               <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                See exactly what your<br />customers experience.
+{t.demoTitle}
               </h3>
               <p className="text-muted-foreground mb-8 leading-relaxed">
-                This is the widget your shoppers see when they click "Find My Fit" on your product pages. Try it yourself — enter any measurements and get an instant size recommendation.
+{t.demoSubtitle}
               </p>
               <div className="space-y-3 mb-8">
-                {[
-                  "Works on any website or platform",
-                  "Supports 10+ garment types",
-                  "Available in Men's and Women's sizing",
-                  "Powered by real size chart data",
-                ].map(point => (
+                {t.demoPoints.map(point => (
                   <div key={point} className="flex items-center gap-3 text-sm text-muted-foreground">
                     <ChevronRight className="w-4 h-4 text-primary shrink-0" />
                     {point}
@@ -112,7 +106,7 @@ export function B2B() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors text-sm w-fit"
               >
                 <Activity className="w-4 h-4" />
-                Launch Live Demo
+{t.launchDemo}
               </button>
             </div>
 
@@ -145,7 +139,7 @@ export function B2B() {
                       className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
                     >
                       <Activity className="w-3.5 h-3.5" />
-                      Find My Fit
+{t.findMyFit}
                     </button>
                   </div>
                 </div>
@@ -167,35 +161,36 @@ export function B2B() {
               <div className="mx-auto w-14 h-14 bg-primary/20 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-7 h-7 text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Request Received!</h3>
-              <p className="text-muted-foreground">We'll be in touch within 1 business day to discuss your integration.</p>
+              <h3 className="text-xl font-bold mb-2">{t.success}</h3>
+              <p className="text-muted-foreground">{t.successMsg}</p>
             </div>
           ) : (
             <>
-              <h3 className="text-xl font-bold mb-2">Request API Integration</h3>
-              <p className="text-muted-foreground text-sm mb-6">Tell us about your store and we'll reach out to get you set up.</p>
+              <h3 className="text-xl font-bold mb-2">{t.formTitle}</h3>
+              <p className="text-muted-foreground text-sm mb-6">{t.formSubtitle}</p>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Your Name *</label>
+                    <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">{t.name} *</label>
                     <input type="text" required placeholder="John Smith" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Work Email *</label>
+                    <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">{t.email} *</label>
                     <input type="email" required placeholder="john@yourbrand.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Company / Brand Name *</label>
+                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">{t.company} *</label>
                   <input type="text" required placeholder="Your Brand" value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors" />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Tell us about your store</label>
-                  <textarea rows={3} placeholder="Monthly orders, platform (Shopify, WooCommerce, custom), main challenges with returns..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors resize-none" />
+                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">{t.message}</label>
+                  <textarea rows={3} placeholder={t.messagePlaceholder} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors resize-none" />
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
                 <button type="submit" disabled={loading} className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50">
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><span>Submit Integration Request</span><ArrowRight className="w-4 h-4" /></>}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><span>{t.submit}</span>
+<ArrowRight className="w-4 h-4" /></>}
                 </button>
               </form>
             </>
@@ -227,7 +222,7 @@ export function B2B() {
               >
                 <X className="w-4 h-4" />
               </button>
-              <FitDemo />
+<FitDemo />
             </motion.div>
           </motion.div>
         )}

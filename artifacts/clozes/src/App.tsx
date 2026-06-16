@@ -145,15 +145,15 @@ function Home({ dark, onToggle, lang, onLangToggle, t }: {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar dark={dark} onToggle={onToggle} lang={lang} onLangToggle={onLangToggle} />
       <Hero t={t.hero} />
-<FitDemo />
+<FitDemo t={t.demo} />
 <Problem t={t.problem} />
-<HowItWorks />
-<OutfitMatching />
-<B2B />
-<Future />
-<Pricing />
-<Waitlist />
-<Footer />
+<HowItWorks t={t.howItWorks} />
+<OutfitMatching t={t.outfit} />
+<B2B t={t.b2b} />
+<Future t={t.future} />
+<Pricing t={t.pricing} />
+<Waitlist t={t.waitlist} />
+<Footer t={t.footer} />
     </div>
   );
 }

@@ -2,52 +2,21 @@ import React from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, Circle, Clock } from "lucide-react";
 
-const roadmap = [
-  {
-    status: "live",
-    label: "Live Now",
-    title: "Size Finder",
-    description: "Enter your measurements and get your exact size for any garment type — shirts, jackets, pants, and more.",
-  },
-  {
-    status: "live",
-    label: "Live Now",
-    title: "Outfit Matching",
-    description: "Pick any item and instantly see what goes with it from your store's catalog.",
-  },
-  {
-    status: "building",
-    label: "In Development",
-    title: "Photo Body Scan",
-    description: "Upload a photo and let our AI extract your measurements automatically — no tape measure needed.",
-  },
-  {
-    status: "building",
-    label: "In Development",
-    title: "Brand API & SDK",
-    description: "Drop our fit widget into any Shopify, WooCommerce, or custom store in under 10 minutes.",
-  },
-  {
-    status: "planned",
-    label: "Coming Soon",
-    title: "Universal Fit Profile",
-    description: "One profile that works across every Clozes-powered store. Shoppers never enter measurements twice.",
-  },
-  {
-    status: "planned",
-    label: "Coming Soon",
-    title: "Return Rate Dashboard",
-    description: "Real-time analytics showing how Clozes is reducing returns and increasing revenue for your brand.",
-  },
-];
-
 const statusConfig = {
   live: { icon: CheckCircle2, color: "text-emerald-500", bg: "bg-emerald-500/10 border-emerald-500/20" },
   building: { icon: Clock, color: "text-primary", bg: "bg-primary/10 border-primary/20" },
   planned: { icon: Circle, color: "text-muted-foreground", bg: "bg-secondary border-border" },
 };
 
-export function Future() {
+export function Future({ t }: { t: typeof import("../../i18n").translations["en"]["future"] }) {
+  const roadmap = [
+    { status: "live", label: t.liveNow, title: t.item1.title, description: t.item1.desc },
+    { status: "live", label: t.liveNow, title: t.item2.title, description: t.item2.desc },
+    { status: "building", label: t.inDevelopment, title: t.item3.title, description: t.item3.desc },
+    { status: "building", label: t.inDevelopment, title: t.item4.title, description: t.item4.desc },
+    { status: "planned", label: t.comingSoon, title: t.item5.title, description: t.item5.desc },
+    { status: "planned", label: t.comingSoon, title: t.item6.title, description: t.item6.desc },
+  ];
   return (
     <section className="py-24 px-6 bg-secondary/20 relative" id="roadmap">
       <div className="max-w-7xl mx-auto">
@@ -58,7 +27,7 @@ export function Future() {
             viewport={{ once: true }}
             className="text-xs font-mono text-primary uppercase tracking-widest mb-4"
           >
-            Product Roadmap
+{t.badge}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -66,7 +35,7 @@ export function Future() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
           >
-            What we're building.
+{t.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -75,7 +44,7 @@ export function Future() {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-xl mx-auto"
           >
-            We're moving fast. Here's exactly where we are and what's coming next.
+{t.subtitle}
           </motion.p>
         </div>
 
@@ -113,9 +82,9 @@ export function Future() {
           viewport={{ once: true }}
           className="text-center text-sm text-muted-foreground mt-12"
         >
-          Want to shape what we build next?{" "}
+          {t.cta}{" "}
           <a href="mailto:hello@clozes.app" className="text-primary hover:underline">
-            Tell us what your brand needs.
+            {t.ctaLink}
           </a>
         </motion.p>
       </div>

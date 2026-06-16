@@ -36,6 +36,22 @@ const WOMEN_CHARTS: SizeChart[] = [
   { label: "Hat", gender: "women", primaryMeasure: "Head Circumference", unit: "cm", sizes: ["S","M","L","XL"], measurements: { "Head Circumference":[54,55.9,57.8,60.1] } },
 ];
 
+const DEFAULT_DEMO = {
+  title: "Live Fit Intelligence",
+  subtitle: "Enter your measurements to find your perfect size.",
+  men: "Men",
+  women: "Women",
+  garmentType: "Garment Type",
+  measurements: "Your Measurements (CM) — Primary:",
+  findMySize: "Find My Size",
+  enterMeasurement: "Enter at least your",
+  toContinue: "to continue.",
+  recommendedSize: "Recommended Size",
+  chartValues: "Chart Values For Size",
+  yours: "yours:",
+  tryAnother: "Try Another Garment",
+};
+
 function CustomSelect({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: string[] }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -56,7 +72,6 @@ function CustomSelect({ value, onChange, options }: { value: string; onChange: (
         <span>{value}</span>
         <ChevronDown className="w-4 h-4 text-primary/50 transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }} />
       </button>
-
       <AnimatePresence>
         {open && (
           <motion.div
@@ -74,11 +89,7 @@ function CustomSelect({ value, onChange, options }: { value: string; onChange: (
                   key={opt}
                   type="button"
                   onClick={() => { onChange(opt); setOpen(false); }}
-                  className={`w-full text-left px-4 py-2.5 text-sm flex items-center gap-2.5 transition-colors ${
-                    active
-                      ? "text-primary bg-primary/8 font-medium"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                  }`}
+                  className={`w-full text-left px-4 py-2.5 text-sm flex items-center gap-2.5 transition-colors ${active ? "text-primary bg-primary/8 font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors ${active ? "bg-primary" : "bg-border"}`} />
                   {opt}
@@ -104,7 +115,8 @@ function findSize(chart: SizeChart, inputs: Record<string, string>) {
   return { size: chart.sizes[bestIndex], allMeasurements };
 }
 
-export function FitDemo() {
+export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
+  const demo = t ?? DEFAULT_DEMO;
   const [gender, setGender] = useState<"men" | "women">("men");
   const [selectedChart, setSelectedChart] = useState<SizeChart>(MEN_CHARTS[0]);
   const [inputs, setInputs] = useState<Record<string, string>>({});
@@ -123,19 +135,15 @@ export function FitDemo() {
   return (
     <section className="py-24 px-6 relative" id="demo">
       <div className="max-w-4xl mx-auto">
-
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Live Fit Intelligence</h2>
-          <p className="text-muted-foreground">Enter your measurements to find your perfect size.</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{demo.title}</h2>
+          <p className="text-muted-foreground">{demo.subtitle}</p>
         </div>
 
         <div className="rounded-2xl relative bg-card border border-border shadow-xl">
-          {/* top accent line */}
           <div className="absolute top-0 inset-x-0 h-[1px] rounded-t-2xl bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-
           <div className="p-6 md:p-8 space-y-6">
 
-            {/* Gender + Garment row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-xs font-semibold uppercase tracking-widest block mb-2 text-muted-foreground">Gender</label>
@@ -144,19 +152,15 @@ export function FitDemo() {
                     <button
                       key={g}
                       onClick={() => handleGenderChange(g)}
-                      className={`flex-1 py-3 text-sm font-medium capitalize transition-all duration-200 ${
-                        gender === g
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background text-muted-foreground hover:text-foreground hover:bg-muted"
-                      }`}
+                      className={`flex-1 py-3 text-sm font-medium capitalize transition-all duration-200 ${gender === g ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground hover:bg-muted"}`}
                     >
-                      {g === "men" ? "Men" : "Women"}
+                      {g === "men" ? demo.men : demo.women}
                     </button>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest block mb-2 text-muted-foreground">Garment Type</label>
+                <label className="text-xs font-semibold uppercase tracking-widest block mb-2 text-muted-foreground">{demo.garmentType}</label>
                 <CustomSelect value={selectedChart.label} onChange={handleChartChange} options={charts.map(c => c.label)} />
               </div>
             </div>
@@ -164,26 +168,19 @@ export function FitDemo() {
             <AnimatePresence mode="wait">
               {step === 1 && !isAnalyzing && (
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
-
-                  {/* Measurement inputs */}
                   <div className="rounded-xl border border-border overflow-hidden">
                     <div className="px-4 py-2.5 bg-muted border-b border-border">
                       <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                        Your Measurements ({selectedChart.unit}) — Primary:{" "}
+                        {demo.measurements}{" "}
                         <span className="text-primary font-bold">{selectedChart.primaryMeasure}</span>
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                      {measurementKeys.map((key, i) => (
-                        <div
-                          key={key}
-                          className="px-4 py-3 bg-card border-b border-r border-border last:border-b-0"
-                        >
+                      {measurementKeys.map((key) => (
+                        <div key={key} className="px-4 py-3 bg-card border-b border-r border-border last:border-b-0">
                           <label className="text-xs font-medium block mb-1.5 text-muted-foreground">
                             {key}
-                            {key === selectedChart.primaryMeasure && (
-                              <span className="ml-1 text-primary font-bold">*</span>
-                            )}
+                            {key === selectedChart.primaryMeasure && <span className="ml-1 text-primary font-bold">*</span>}
                           </label>
                           <input
                             type="number"
@@ -202,19 +199,15 @@ export function FitDemo() {
                     data-testid="button-analyze-fit"
                     onClick={handleAnalyze}
                     disabled={!canAnalyze}
-                    className={`w-full py-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${
-                      canAnalyze
-                        ? "bg-primary text-primary-foreground hover:opacity-90"
-                        : "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
-                    }`}
+                    className={`w-full py-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${canAnalyze ? "bg-primary text-primary-foreground hover:opacity-90" : "bg-muted text-muted-foreground cursor-not-allowed opacity-50"}`}
                   >
                     <Activity className="w-4 h-4" />
-                    Find My Size
+                    {demo.findMySize}
                   </button>
 
                   {!canAnalyze && (
                     <p className="text-xs text-center text-muted-foreground">
-                      Enter at least your {selectedChart.primaryMeasure} to continue.
+                      {demo.enterMeasurement} {selectedChart.primaryMeasure} {demo.toContinue}
                     </p>
                   )}
                 </motion.div>
@@ -224,8 +217,8 @@ export function FitDemo() {
                 <motion.div key="analyzing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="py-16 flex flex-col items-center justify-center space-y-6">
                   <Loader2 className="w-10 h-10 animate-spin text-primary" />
                   <div className="text-center">
-                    <h3 className="text-lg font-medium mb-1 text-foreground">Matching to Size Chart…</h3>
-                    <p className="text-xs font-mono text-muted-foreground">{selectedChart.label} · {gender === "men" ? "Men" : "Women"}</p>
+                    <h3 className="text-lg font-medium mb-1 text-foreground">{demo.title}…</h3>
+                    <p className="text-xs font-mono text-muted-foreground">{selectedChart.label} · {gender === "men" ? demo.men : demo.women}</p>
                   </div>
                   <div className="w-48 h-1 rounded-full overflow-hidden bg-muted">
                     <motion.div className="h-full bg-primary" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 2, ease: "easeInOut" }} />
@@ -235,34 +228,28 @@ export function FitDemo() {
 
               {step === 2 && !isAnalyzing && (
                 <motion.div key="results" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5">
-
-                  {/* Size result banner */}
                   <div className="flex flex-col sm:flex-row items-center gap-6 rounded-xl p-6 bg-primary/10 border border-primary/25">
                     <div className="flex-1 text-center sm:text-left">
                       <p className="text-xs uppercase tracking-widest mb-1 text-muted-foreground">
-                        {gender === "men" ? "Men's" : "Women's"} {selectedChart.label}
+                        {gender === "men" ? demo.men : demo.women} {selectedChart.label}
                       </p>
-                      <h3 className="text-base font-medium text-foreground">Recommended Size</h3>
+                      <h3 className="text-base font-medium text-foreground">{demo.recommendedSize}</h3>
                     </div>
                     <div className="text-7xl font-bold leading-none text-primary">{result.size}</div>
                   </div>
 
-                  {/* Measurement breakdown */}
                   <div className="rounded-xl border border-border overflow-hidden">
                     <div className="px-4 py-2.5 bg-muted border-b border-border">
                       <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                        Chart Values for Size {result.size}
+                        {demo.chartValues} {result.size}
                       </p>
                     </div>
                     {Object.entries(result.allMeasurements).map(([name, data], i, arr) => (
-                      <div
-                        key={name}
-                        className={`flex items-center justify-between px-4 py-3 text-sm bg-card ${i < arr.length - 1 ? "border-b border-border" : ""}`}
-                      >
+                      <div key={name} className={`flex items-center justify-between px-4 py-3 text-sm bg-card ${i < arr.length - 1 ? "border-b border-border" : ""}`}>
                         <span className="text-muted-foreground">{name}</span>
                         <div className="flex items-center gap-3">
                           {data.userValue !== null && (
-                            <span className="text-xs text-muted-foreground/60">yours: {data.userValue}cm</span>
+                            <span className="text-xs text-muted-foreground/60">{demo.yours} {data.userValue}cm</span>
                           )}
                           <span className="font-mono font-medium text-foreground">{data.chartValue}cm</span>
                         </div>
@@ -276,7 +263,7 @@ export function FitDemo() {
                     className="w-full text-xs flex items-center justify-center gap-2 py-2 uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
                   >
                     <RefreshCcw className="w-3 h-3" />
-                    Try Another Garment
+                    {demo.tryAnother}
                   </button>
                 </motion.div>
               )}

@@ -2,64 +2,40 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 
-const plans = [
-  {
-    name: "Starter",
-    price: "$299",
-    period: "per month",
-    description: "Perfect for small boutiques and independent brands just getting started with fit intelligence.",
-    analyses: "Up to 10,000 fit analyses/mo",
-    features: [
-      "Drop-in 'Find My Fit' widget",
-      "Standard size recommendations",
-      "Basic analytics dashboard",
-      "Email support",
-      "1 storefront integration",
-    ],
-    button: "Start Free Trial",
-    highlight: false,
-    trial: "14-day free trial"
-  },
-  {
-    name: "Growth",
-    price: "$799",
-    period: "per month",
-    description: "For scaling brands that want to seriously reduce returns and improve customer satisfaction.",
-    analyses: "Up to 50,000 fit analyses/mo",
-    features: [
-      "Everything in Starter",
-      "Full outfit compatibility AI",
-      "Universal fit profiles across brands",
-      "Advanced return rate analytics",
-      "Priority support",
-      "Up to 5 storefront integrations",
-    ],
-    button: "Start Free Trial",
-    highlight: true,
-    trial: "14-day free trial"
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    period: "pricing",
-    description: "For large retailers and multi-brand platforms that need unlimited scale and dedicated support.",
-    analyses: "Unlimited fit analyses",
-    features: [
-      "Everything in Growth",
-      "Dedicated account manager",
-      "Custom AI model training",
-      "White-label SDK",
-      "SLA guarantee",
-      "Unlimited integrations",
-      "On-premise deployment option",
-    ],
-    button: "Contact Sales",
-    highlight: false,
-    trial: "Custom onboarding"
-  }
-];
 
-export function Pricing() {
+export function Pricing({ t }: { t: typeof import("../../i18n").translations["en"]["pricing"] }) {
+  const plans = [
+    {
+      name: t.starter.name,
+      price: t.starter.price,
+      period: t.monthly,
+      description: t.starter.desc,
+      features: t.starter.features,
+      button: t.getStarted,
+      highlight: false,
+      trial: "14-day free trial"
+    },
+    {
+      name: t.growth.name,
+      price: t.growth.price,
+      period: t.monthly,
+      description: t.growth.desc,
+      features: t.growth.features,
+      button: t.getStarted,
+      highlight: true,
+      trial: "14-day free trial"
+    },
+    {
+      name: t.enterprise.name,
+      price: t.enterprise.price,
+      period: "",
+      description: t.enterprise.desc,
+      features: t.enterprise.features,
+      button: t.contactUs,
+      highlight: false,
+      trial: "Custom onboarding"
+    }
+  ];
   return (
     <section className="py-24 px-6 bg-background relative" id="pricing">
       <div className="max-w-7xl mx-auto">
@@ -78,7 +54,7 @@ export function Pricing() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
           >
-            Simple, transparent pricing
+{t.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -87,7 +63,7 @@ export function Pricing() {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            Add fit intelligence to your store. Reduce returns. Increase customer confidence. All plans include a 14-day free trial.
+{t.subtitle}
           </motion.p>
         </div>
 
@@ -122,7 +98,6 @@ export function Pricing() {
                     <span className="text-muted-foreground text-sm">{plan.period}</span>
                   )}
                 </div>
-                <div className="text-xs text-primary font-mono mb-3">{plan.analyses}</div>
                 <p className="text-sm text-muted-foreground">{plan.description}</p>
               </div>
 
