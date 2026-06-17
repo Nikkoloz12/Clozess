@@ -6,6 +6,7 @@ import brandsRouter from "./brands";
 import productsRouter from "./products";
 import sizeChartsRouter from "./sizeCharts";
 import widgetSettingsRouter from "./widgetSettings";
+import adminRouter from "./admin";
 
 const router: IRouter = Router();
 router.use(healthRouter);
@@ -15,5 +16,6 @@ router.use(brandsRouter);
 router.use(productsRouter);
 router.use(sizeChartsRouter);
 router.use(widgetSettingsRouter);
+router.use(adminRouter);
 
 export default router;
