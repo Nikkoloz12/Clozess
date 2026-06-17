@@ -149,8 +149,7 @@ function Home({ dark, onToggle, lang, onLangToggle, t }: {
 <Problem t={t.problem} />
 <HowItWorks t={t.howItWorks} />
 <OutfitMatching t={t.outfit} />
-<B2B t={t.b2b} />
-<Future t={t.future} />
+<B2B t={t.b2b} tDemo={t.demo} /><Future t={t.future} />
 <Pricing t={t.pricing} />
 <Waitlist t={t.waitlist} />
 <Footer t={t.footer} />

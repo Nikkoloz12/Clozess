@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Globe2, ShieldCheck, ArrowRight, Loader2, CheckCircle2, X, Activity, ChevronRight } from "lucide-react";
 import { FitDemo } from "./FitDemo";
 
-export function B2B({ t }: { t: typeof import("../../i18n").translations["en"]["b2b"] }) {  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+export function B2B({ t, tDemo }: { t: typeof import("../../i18n").translations["en"]["b2b"]; tDemo: typeof import("../../i18n").translations["en"]["demo"] }) {  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -222,8 +222,8 @@ export function B2B({ t }: { t: typeof import("../../i18n").translations["en"]["
               >
                 <X className="w-4 h-4" />
               </button>
-<FitDemo />
-            </motion.div>
+          <FitDemo t={tDemo} />            
+          </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
