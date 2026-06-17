@@ -36,6 +36,35 @@ const WOMEN_CHARTS: SizeChart[] = [
   { label: "Hat", gender: "women", primaryMeasure: "Head Circumference", unit: "cm", sizes: ["S","M","L","XL"], measurements: { "Head Circumference":[54,55.9,57.8,60.1] } },
 ];
 
+const GARMENT_LABELS: Record<string, string> = {
+  "Short Sleeve T-Shirt": "მაისური მოკლე სახელოებით",
+  "Long Sleeve T-Shirt": "მაისური გრძელი სახელოებით",
+  "Polo Shirt": "პოლო პერანგი",
+  "Tank Top": "მაისური მკლავების გარეშე",
+  "Sweatshirt / Hoodie": "თბილი მაისური / ჰუდი",
+  "Jacket": "ქურთუკი",
+  "Sweater": "სვიტერი",
+  "Pants": "შარვალი",
+  "Hat": "ქუდი",
+  "Dress": "კაბა",
+};
+
+const MEASUREMENT_LABELS: Record<string, string> = {
+  "Chest": "მკერდი",
+  "Bust": "მკერდი",
+  "Body Length": "სხეულის სიგრძე",
+  "Body Length at Back": "სხეულის სიგრძე უკნიდან",
+  "Sleeve Length": "სახელოს სიგრძე",
+  "Sleeve Length (Center Back)": "სახელოს სიგრძე (ცენტრში)",
+  "Sleeve from Shoulder": "სახელოს სიგრძე მხრიდან",
+  "Waist": "წელი",
+  "Waist (Relaxed)": "წელი (მოდუნებული)",
+  "Waist (Extended)": "წელი (გაჭიმული)",
+  "Hip": "თეძო",
+  "Cuff Opening": "სახელოს ბოლო",
+  "Head Circumference": "თავის გარშემოწერილობა",
+};
+
 const DEFAULT_DEMO = {
   title: "Live Fit Intelligence",
   subtitle: "Enter your measurements to find your perfect size.",
@@ -117,6 +146,11 @@ function findSize(chart: SizeChart, inputs: Record<string, string>) {
 
 export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
   const demo = t ?? DEFAULT_DEMO;
+  const isKa = demo.men === "კაცი";
+const getGarmentLabel = (label: string) => isKa ? (GARMENT_LABELS[label] || label) : label;
+const getMeasurementLabel = (label: string) => isKa ? (MEASUREMENT_LABELS[label] || label) : label;
+  const garmentLabels: Record<string, string> = demo.garments ?? {};
+const measurementLabels: Record<string, string> = demo.measurementNames ?? {};
   const [gender, setGender] = useState<"men" | "women">("men");
   const [selectedChart, setSelectedChart] = useState<SizeChart>(MEN_CHARTS[0]);
   const [inputs, setInputs] = useState<Record<string, string>>({});
@@ -125,7 +159,12 @@ export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
 
   const charts = gender === "men" ? MEN_CHARTS : WOMEN_CHARTS;
   const handleGenderChange = (g: "men" | "women") => { setGender(g); setSelectedChart(g === "men" ? MEN_CHARTS[0] : WOMEN_CHARTS[0]); setInputs({}); setStep(1); };
-  const handleChartChange = (label: string) => { setSelectedChart(charts.find(c => c.label === label) ?? charts[0]); setInputs({}); setStep(1); };
+const handleChartChange = (translatedLabel: string) => {
+  const original = charts.find(c => getGarmentLabel(c.label) === translatedLabel);
+  setSelectedChart(original ?? charts[0]);
+  setInputs({});
+  setStep(1);
+};
   const handleAnalyze = () => { setIsAnalyzing(true); setTimeout(() => { setIsAnalyzing(false); setStep(2); }, 2000); };
 
   const result = findSize(selectedChart, inputs);
@@ -161,10 +200,8 @@ export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
               </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-widest block mb-2 text-muted-foreground">{demo.garmentType}</label>
-                <CustomSelect value={selectedChart.label} onChange={handleChartChange} options={charts.map(c => c.label)} />
-              </div>
+<CustomSelect value={getGarmentLabel(selectedChart.label)} onChange={handleChartChange} options={charts.map(c => getGarmentLabel(c.label))} />              </div>
             </div>
-
             <AnimatePresence mode="wait">
               {step === 1 && !isAnalyzing && (
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
@@ -172,15 +209,15 @@ export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
                     <div className="px-4 py-2.5 bg-muted border-b border-border">
                       <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                         {demo.measurements}{" "}
-                        <span className="text-primary font-bold">{selectedChart.primaryMeasure}</span>
+<span className="text-primary font-bold">{getMeasurementLabel(selectedChart.primaryMeasure)}</span>
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                       {measurementKeys.map((key) => (
                         <div key={key} className="px-4 py-3 bg-card border-b border-r border-border last:border-b-0">
                           <label className="text-xs font-medium block mb-1.5 text-muted-foreground">
-                            {key}
-                            {key === selectedChart.primaryMeasure && <span className="ml-1 text-primary font-bold">*</span>}
+                            {getMeasurementLabel(key)}
+{key === selectedChart.primaryMeasure && <span className="ml-1 text-primary font-bold">*</span>}
                           </label>
                           <input
                             type="number"
@@ -246,8 +283,7 @@ export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
                     </div>
                     {Object.entries(result.allMeasurements).map(([name, data], i, arr) => (
                       <div key={name} className={`flex items-center justify-between px-4 py-3 text-sm bg-card ${i < arr.length - 1 ? "border-b border-border" : ""}`}>
-                        <span className="text-muted-foreground">{name}</span>
-                        <div className="flex items-center gap-3">
+                          <span className="text-muted-foreground">{getMeasurementLabel(name)}</span>                        <div className="flex items-center gap-3">
                           {data.userValue !== null && (
                             <span className="text-xs text-muted-foreground/60">{demo.yours} {data.userValue}cm</span>
                           )}
