@@ -77,8 +77,7 @@ export function OutfitMatching({ t }: { t: typeof import("../../i18n").translati
                   <img src={current.image} alt={current.label} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                   <div className="absolute bottom-3 left-3">
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Selected</div>
-                    <div className="text-sm font-medium">{current.label}</div>
+<div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">{t.selected}</div>                    <div className="text-sm font-medium">{current.label}</div>
                     <div className="text-xs text-muted-foreground mt-0.5">{current.size}</div>
                   </div>
                 </motion.div>
@@ -92,7 +91,7 @@ export function OutfitMatching({ t }: { t: typeof import("../../i18n").translati
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Layers className="w-4 h-4 text-primary" />
-                  <span className="text-[10px] text-primary font-mono uppercase tracking-widest">Goes well with</span>
+<span className="text-[10px] text-primary font-mono uppercase tracking-widest">{t.goesWith}</span>
                 </div>
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -172,11 +171,7 @@ export function OutfitMatching({ t }: { t: typeof import("../../i18n").translati
               transition={{ delay: 0.2 }}
               className="space-y-4 text-muted-foreground"
             >
-              {[
-                "Color matching across your full catalog",
-                "Proportions that actually work together",
-                "Personalized to each shopper's taste",
-              ].map((point) => (
+              {[t.bullet1, t.bullet2, t.bullet3].map((point) => (
                 <li key={point} className="flex items-center gap-3">
                   <ChevronRight className="w-4 h-4 text-primary shrink-0" />
                   {point}

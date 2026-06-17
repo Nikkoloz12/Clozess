@@ -92,7 +92,7 @@ onClick={onLangToggle}
               href="#waitlist"
               className="hidden md:inline-flex px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
             >
-              Join Early Access
+              {nav.joinEarlyAccess}
             </a>
             {/* Burger button - mobile only */}
             <button
@@ -126,7 +126,7 @@ onClick={onLangToggle}
             onClick={handleLinkClick}
             className="mt-8 w-full py-4 rounded-lg bg-primary text-primary-foreground text-center font-medium hover:bg-primary/90 transition-colors"
           >
-            Join Early Access
+            {nav.joinEarlyAccess}
           </a>
         </div>
       )}

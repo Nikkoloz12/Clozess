@@ -30,7 +30,7 @@ export function Problem({ t }: { t: typeof import("../../i18n").translations["en
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            Shopping for clothes online is broken. Shoppers rely on static size charts and models who don't share their body type.
+{t.subtitle}
           </motion.p>
         </div>
 

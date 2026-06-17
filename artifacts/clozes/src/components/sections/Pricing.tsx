@@ -13,7 +13,7 @@ export function Pricing({ t }: { t: typeof import("../../i18n").translations["en
       features: t.starter.features,
       button: t.getStarted,
       highlight: false,
-      trial: "14-day free trial"
+      trial: t.trial
     },
     {
       name: t.growth.name,
@@ -33,7 +33,7 @@ export function Pricing({ t }: { t: typeof import("../../i18n").translations["en
       features: t.enterprise.features,
       button: t.contactUs,
       highlight: false,
-      trial: "Custom onboarding"
+      trial: t.customOnboarding
     }
   ];
   return (
@@ -140,8 +140,8 @@ export function Pricing({ t }: { t: typeof import("../../i18n").translations["en
           viewport={{ once: true }}
           className="text-center text-sm text-muted-foreground mt-12"
         >
-          All prices in USD. Billed monthly or annually (save 20% with annual billing). Need a custom volume plan?{" "}
-          <a href="mailto:sales@clozes.app" className="text-primary hover:underline">Contact us.</a>
+          {t.bottomText}{" "}
+          <a href="mailto:sales@clozes.app" className="text-primary hover:underline">{t.contactLink}</a>
         </motion.p>
       </div>
     </section>
