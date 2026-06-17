@@ -83,7 +83,7 @@ export function Pricing({ t }: { t: typeof import("../../i18n").translations["en
             >
               {plan.highlight && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase">
-                  Most Popular
+                  {t.headerlink}
                 </div>
               )}
 
