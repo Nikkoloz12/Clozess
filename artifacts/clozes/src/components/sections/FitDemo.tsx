@@ -149,8 +149,6 @@ export function FitDemo({ t }: { t?: typeof DEFAULT_DEMO }) {
   const isKa = demo.men === "კაცი";
 const getGarmentLabel = (label: string) => isKa ? (GARMENT_LABELS[label] || label) : label;
 const getMeasurementLabel = (label: string) => isKa ? (MEASUREMENT_LABELS[label] || label) : label;
-  const garmentLabels: Record<string, string> = demo.garments ?? {};
-const measurementLabels: Record<string, string> = demo.measurementNames ?? {};
   const [gender, setGender] = useState<"men" | "women">("men");
   const [selectedChart, setSelectedChart] = useState<SizeChart>(MEN_CHARTS[0]);
   const [inputs, setInputs] = useState<Record<string, string>>({});

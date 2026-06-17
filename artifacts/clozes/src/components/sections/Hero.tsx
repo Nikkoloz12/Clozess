@@ -66,7 +66,7 @@ export function Hero({ t }: { t: typeof import("../../i18n").translations["en"][
               data-testid="button-try-demo"
               className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 group text-sm"
             >
-              T{t.tryDemo}
+              {t.tryDemo}
               <Activity className="w-4 h-4 group-hover:animate-pulse" />
             </a>
             <a
