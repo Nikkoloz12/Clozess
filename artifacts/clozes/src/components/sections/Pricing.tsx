@@ -23,7 +23,7 @@ export function Pricing({ t }: { t: typeof import("../../i18n").translations["en
       features: t.growth.features,
       button: t.getStarted,
       highlight: true,
-      trial: "14-day free trial"
+      trial: t.trial
     },
     {
       name: t.enterprise.name,
