@@ -23,7 +23,7 @@ function Login({ onLogin }: { onLogin: (secret: string) => void }) {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`${API}/api/admin/brands`, {
+      const res = await fetch(`${API}/admin/brands`, {
         headers: { "x-admin-secret": secret }
       });
       if (res.ok) {
@@ -84,7 +84,7 @@ export default function App() {
   const fetchBrands = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/admin/brands`, { headers });
+      const res = await fetch(`${API}/admin/brands`, { headers });
       if (!res.ok) { setSecret(""); localStorage.removeItem("admin_secret"); return; }
       setBrands(await res.json());
     } catch { setError("Failed to load brands"); }
@@ -96,14 +96,14 @@ export default function App() {
   const handleAdd = async () => {
     if (!newBrand.name || !newBrand.email) return;
     try {
-      const res = await fetch(`${API}/api/admin/brands`, { method: "POST", headers, body: JSON.stringify(newBrand) });
+      const res = await fetch(`${API}/admin/brands`, { method: "POST", headers, body: JSON.stringify(newBrand) });
       if (res.ok) { setShowAdd(false); setNewBrand({ name: "", email: "", website: "" }); fetchBrands(); }
     } catch { setError("Failed to add brand"); }
   };
 
   const handleToggle = async (brand: Brand) => {
     try {
-      await fetch(`${API}/api/admin/brands/${brand.id}`, { method: "PATCH", headers, body: JSON.stringify({ active: !brand.active }) });
+      await fetch(`${API}/admin/brands/${brand.id}`, { method: "PATCH", headers, body: JSON.stringify({ active: !brand.active }) });
       fetchBrands();
     } catch { setError("Failed to update brand"); }
   };
@@ -111,7 +111,7 @@ export default function App() {
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this brand? This cannot be undone.")) return;
     try {
-      await fetch(`${API}/api/admin/brands/${id}`, { method: "DELETE", headers });
+      await fetch(`${API}/admin/brands/${id}`, { method: "DELETE", headers });
       fetchBrands();
     } catch { setError("Failed to delete brand"); }
   };
