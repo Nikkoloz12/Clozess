@@ -16,8 +16,8 @@ function requireAdmin(req: any, res: any, next: any) {
   next();
 }
 
-// GET /api/admin/brands — list all brands with stats
-router.get("/api/admin/brands", requireAdmin, async (req, res) => {
+// GET /admin/brands — list all brands with stats
+router.get("/admin/brands", requireAdmin, async (req, res) => {
   try {
     const allBrands = await db.select().from(brandsTable).orderBy(desc(brandsTable.createdAt));
     const result = await Promise.all(allBrands.map(async (brand) => {
@@ -30,8 +30,8 @@ router.get("/api/admin/brands", requireAdmin, async (req, res) => {
   }
 });
 
-// POST /api/admin/brands — create new brand
-router.post("/api/admin/brands", requireAdmin, async (req, res) => {
+// POST /admin/brands — create new brand
+router.post("/admin/brands", requireAdmin, async (req, res) => {
   try {
     const { name, email, website } = req.body;
     if (!name || !email) return res.status(400).json({ error: "Name and email required" });
@@ -43,8 +43,8 @@ router.post("/api/admin/brands", requireAdmin, async (req, res) => {
   }
 });
 
-// PATCH /api/admin/brands/:id — toggle active status
-router.patch("/api/admin/brands/:id", requireAdmin, async (req, res) => {
+// PATCH /admin/brands/:id — toggle active status
+router.patch("/admin/brands/:id", requireAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const { active } = req.body;
@@ -55,8 +55,8 @@ router.patch("/api/admin/brands/:id", requireAdmin, async (req, res) => {
   }
 });
 
-// DELETE /api/admin/brands/:id — delete brand
-router.delete("/api/admin/brands/:id", requireAdmin, async (req, res) => {
+// DELETE /admin/brands/:id — delete brand
+router.delete("/admin/brands/:id", requireAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     await db.delete(brandsTable).where(eq(brandsTable.id, id));
