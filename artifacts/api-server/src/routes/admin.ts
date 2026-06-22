@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { db } from "@workspace/db";
-import { brands, fitAnalyses } from "@workspace/db/schema";
+import crypto from "crypto";
+
+import { db, brandsTable, fitAnalysesTable } from "@workspace/db";
 import { desc, eq, count } from "drizzle-orm";
 
 const router = Router();
@@ -18,9 +19,9 @@ function requireAdmin(req: any, res: any, next: any) {
 // GET /api/admin/brands — list all brands with stats
 router.get("/api/admin/brands", requireAdmin, async (req, res) => {
   try {
-    const allBrands = await db.select().from(brands).orderBy(desc(brands.createdAt));
+    const allBrands = await db.select().from(brandsTable).orderBy(desc(brandsTable.createdAt));
     const result = await Promise.all(allBrands.map(async (brand) => {
-      const [{ total }] = await db.select({ total: count() }).from(fitAnalyses).where(eq(fitAnalyses.brandId, brand.id));
+      const [{ total }] = await db.select({ total: count() }).from(fitAnalysesTable).where(eq(fitAnalysesTable.brandId, brand.id));
       return { ...brand, totalAnalyses: total };
     }));
     res.json(result);
@@ -35,7 +36,7 @@ router.post("/api/admin/brands", requireAdmin, async (req, res) => {
     const { name, email, website } = req.body;
     if (!name || !email) return res.status(400).json({ error: "Name and email required" });
     const apiKey = `clz_live_${crypto.randomUUID().replace(/-/g, "")}`;
-    const [brand] = await db.insert(brands).values({ name, email, website: website || "", apiKey, active: true }).returning();
+    const [brand] = await db.insert(brandsTable).values({ name, email, website: website || "", apiKey, active: true }).returning();
     res.json(brand);
   } catch (err) {
     res.status(500).json({ error: "Failed to create brand" });
@@ -47,7 +48,7 @@ router.patch("/api/admin/brands/:id", requireAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const { active } = req.body;
-    const [brand] = await db.update(brands).set({ active }).where(eq(brands.id, id)).returning();
+    const [brand] = await db.update(brandsTable).set({ active }).where(eq(brandsTable.id, id)).returning();
     res.json(brand);
   } catch (err) {
     res.status(500).json({ error: "Failed to update brand" });
@@ -58,7 +59,7 @@ router.patch("/api/admin/brands/:id", requireAdmin, async (req, res) => {
 router.delete("/api/admin/brands/:id", requireAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    await db.delete(brands).where(eq(brands.id, id));
+    await db.delete(brandsTable).where(eq(brandsTable.id, id));
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete brand" });
